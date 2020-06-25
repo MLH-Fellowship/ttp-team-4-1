@@ -23,6 +23,16 @@ export default function Chat(props)
         {
             setMessages(prevMessages => [...prevMessages, `${player}: ${chatMsg}`]);
         });
+
+        props.socket.on("player join", (msg) =>
+        {
+            setMessages(prevMessages => [...prevMessages, msg]);
+        });
+
+        props.socket.on("player leave", (msg) =>
+        {
+            setMessages(prevMessages => [...prevMessages, msg]);
+        });
     }, []);
 
     return (
