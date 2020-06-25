@@ -12,9 +12,9 @@ server.io.on("connection", (socket) =>
         game.disconnect(socket);
     });
 
-    socket.on("send message", (chatMsg) => 
+    socket.on("send message", (chatMsg, player) => 
     {
-        game.sendMessage(socket, chatMsg);
+        game.sendMessage(socket, chatMsg, player);
     });
 });
 

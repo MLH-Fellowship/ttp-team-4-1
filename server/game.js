@@ -21,9 +21,9 @@ Game.prototype.disconnect = function disconnect(socket)
     console.log(`Socket ${socket.id} disconnected from server`);
 };
 
-Game.prototype.sendMessage = function sendMessage(socket, chatMsg)
+Game.prototype.sendMessage = function sendMessage(socket, chatMsg, player)
 {
-    this.io.emit("send message", chatMsg);
+    this.io.emit("send message", chatMsg, player);
 };
 
 module.exports = Game;
