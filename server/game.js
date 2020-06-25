@@ -2,6 +2,7 @@
 "use strict";
 
 let players = [];
+let oldText = "";
 
 function Game(io)
 {
@@ -60,7 +61,13 @@ Game.prototype.connect = function connect(socket)
 
     socket.on("update textarea", (text) =>
     {
+        oldText = text;
         this.io.sockets.emit("textarea updated", text);
+    });
+
+    socket.on("get textarea", () =>
+    {
+        socket.emit("receive textarea", oldText);
     });
 };
 
