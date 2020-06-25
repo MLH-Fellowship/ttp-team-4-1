@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import './App.css';
 import CounterContainer from '../Counter/CounterContainer';
+import Client from "../Client/Client";
 
 function App() 
 {
+    const [loadClient, setLoadClient] = useState(true);
+
     return (
         <div className="App">
+            {/* Load or unload the client */}
+            <button onClick={() => setLoadClient(prevState => !prevState)}>Stop/Start Client</button>
             <header className="App-header">
-                Hello, World!
                 <CounterContainer />
+                {/* Socket IO Client */}
+                {loadClient ? <Client /> : "Client Offline"}
             </header>
         </div>
     );
