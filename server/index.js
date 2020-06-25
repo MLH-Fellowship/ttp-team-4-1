@@ -16,6 +16,11 @@ server.io.on("connection", (socket) =>
     {
         game.sendMessage(socket, chatMsg, player);
     });
+
+    socket.on("send private msg", (chatMsg, sender, recipient) =>
+    {
+        game.sendPrivateMsg(socket, chatMsg, sender, recipient);
+    });
 });
 
 game.start();
