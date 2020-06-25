@@ -23,7 +23,7 @@ Game.prototype.disconnect = function disconnect(socket)
 
 Game.prototype.sendMessage = function sendMessage(socket, chatMsg)
 {
-    socket.emit("send message", chatMsg);
+    this.io.emit("send message", chatMsg);
 };
 
 module.exports = Game;
