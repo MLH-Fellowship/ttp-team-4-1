@@ -9,7 +9,7 @@ export default function Chat(props)
     {
         event.preventDefault();
         event.target.reset();
-        props.socket.emit("chat message", chatMsg);
+        props.socket.emit("send message", chatMsg);
         console.log(chatMsg);
     };
 
@@ -20,11 +20,10 @@ export default function Chat(props)
 
     useEffect(() =>
     {
-        props.socket.on("chat message", chatMsg =>
+        props.socket.on("send message", chatMsg =>
         {
             setMessages(prevMessages => [...prevMessages, chatMsg]);
         });
-        console.log(messages);
     }, []);
 
     return (
