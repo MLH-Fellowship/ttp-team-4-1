@@ -14,8 +14,20 @@ server.io.on("connection", (socket) =>
 
     game.connect(socket);
 
+    //Username emit
+    socket.on('user name', (userMsg) => {
+        server.io.emit('user name', userMsg);
+    });
+    
+    //Message emit on chat
     socket.on('chat message', (chatMsg) => {
         server.io.emit('chat message', chatMsg);
+    });
+
+    //Mouse movement emit on canvas
+    socket.on('mouse', (mouseMsg) => {
+        io.socket.emit('mouse', mouseMsg);
+        console.log(mouseMsg);
     });
 
     socket.on("disconnect", () =>
