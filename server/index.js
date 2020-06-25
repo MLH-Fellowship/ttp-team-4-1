@@ -15,7 +15,7 @@ server.io.on("connection", (socket) =>
     game.connect(socket);
 
     socket.on('chat message', (chatMsg) => {
-        io.emit('chat message', chatMsg);
+        server.io.emit('chat message', chatMsg);
     });
 
     socket.on("disconnect", () =>
