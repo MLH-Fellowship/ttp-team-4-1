@@ -3,6 +3,16 @@ import React, { useEffect, useState } from "react";
 export default function Notepad(props)
 {
     const [text, setText] = useState("");
+    
+    const getTextArea = () =>
+    {
+        props.socket.emit("get textarea");
+
+        props.socket.on("receive textarea", (text) =>
+        {
+            setText(text);
+        });
+    };
 
     const onChange = (event) =>
     {
@@ -11,6 +21,8 @@ export default function Notepad(props)
 
     useEffect(() =>
     {
+        getTextArea();
+
         props.socket.on("textarea updated", (text) =>
         {
             setText(text);
