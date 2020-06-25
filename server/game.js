@@ -28,8 +28,8 @@ Game.prototype.sendMessage = function sendMessage(socket, chatMsg, player)
 
 Game.prototype.sendPrivateMsg = function sendPrivateMsg(socket, chatMsg, sender, recipient)
 {
-    socket.emit("send private msg", chatMsg, sender, recipient);
-    this.io.to(recipient).emit("send private msg", chatMsg, sender, recipient);
+    socket.emit("send private msg", `Private message to ${recipient}`, sender, recipient);
+    this.io.to(recipient).emit("send private msg", `Private message from ${sender}`, sender, recipient);
 };
 
 module.exports = Game;

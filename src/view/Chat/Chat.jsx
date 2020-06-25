@@ -20,7 +20,7 @@ export default function Chat(props)
     const onClick = (event, id) =>
     {
         event.preventDefault();
-        props.socket.emit("send private msg", "Private Message", props.socket.id, id);
+        props.socket.emit("send private msg", "", props.socket.id, id);
     };
 
     useEffect(() =>
@@ -48,13 +48,19 @@ export default function Chat(props)
 
     return (
         <div>
+            Welcome, <strong>{props.socket.id}</strong>
             <form onSubmit={onSubmit}>
                 <input type="text" placeholder="Chat Here" onChange={onChange} />
             </form>
             Messages:<br/>
             {messages.map(msg => 
                 <div>
-                    <a href={msg.player} onClick={event => onClick(event, msg.player)}>{msg.player}</a>: {msg.chatMsg}
+                    {msg.player !== props.socket.id ? 
+                        <a href={msg.player} onClick={event => onClick(event, msg.player)}><strong>{msg.player}</strong></a> : 
+                        <strong>{msg.player}</strong>
+                    }  
+                    <br/>
+                    {msg.chatMsg}
                 </div>
             )}
         </div>
