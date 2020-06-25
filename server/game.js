@@ -1,6 +1,8 @@
 // Prevent use of undeclared variables
 "use strict";
 
+let players = [];
+
 function Game(io)
 {
     this.io = io;
@@ -13,7 +15,18 @@ Game.prototype.start = function start()
 
 Game.prototype.connect = function connect(socket)
 {
-    this.io.emit("player join", `Socket ${socket.id} connected to server`);
+    // this.io.emit("player join", `Socket ${socket.id} connected to server`);
+
+    socket.on("set username", (userName) =>
+    {
+        if(!players.includes(userName) && (userName !== "" || userName !== " "))
+        {
+            players.push(userName);
+            socket.emit("user set", userName);
+            this.io.emit("player join", `Player ${userName} (${socket.id}) has joined the server`);
+        }
+        else socket.emit("user exists", `${userName} is already taken or empty. Try another user name.`);
+    });
 };
 
 Game.prototype.disconnect = function disconnect(socket)

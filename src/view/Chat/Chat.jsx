@@ -9,7 +9,7 @@ export default function Chat(props)
     {
         event.preventDefault();
         event.target.reset();
-        props.socket.emit("send message", chatMsg, props.socket.id);
+        props.socket.emit("send message", chatMsg, props.userName);
     };
 
     const onChange = (event) =>
@@ -20,7 +20,7 @@ export default function Chat(props)
     const onClick = (event, id) =>
     {
         event.preventDefault();
-        props.socket.emit("send private msg", "", props.socket.id, id);
+        props.socket.emit("send private msg", "", props.userName, id);
     };
 
     useEffect(() =>
@@ -32,7 +32,7 @@ export default function Chat(props)
 
         props.socket.on("send private msg", (chatMsg, sender, recipient) =>
         {
-            setMessages(prevMessages => [...prevMessages, { player: recipient, chatMsg }])
+            setMessages(prevMessages => [...prevMessages, { player: "CONSOLE", chatMsg }])
         });
 
         props.socket.on("player join", (msg) =>
@@ -48,14 +48,14 @@ export default function Chat(props)
 
     return (
         <div>
-            Welcome, <strong>{props.socket.id}</strong>
+            Welcome, <strong>{props.userName}</strong>
             <form onSubmit={onSubmit}>
                 <input type="text" placeholder="Chat Here" onChange={onChange} />
             </form>
             Messages:<br/>
             {messages.map(msg => 
                 <div>
-                    {msg.player !== props.socket.id ? 
+                    {msg.player !== props.userName ? 
                         <a href={msg.player} onClick={event => onClick(event, msg.player)}><strong>{msg.player}</strong></a> : 
                         <strong>{msg.player}</strong>
                     }  
