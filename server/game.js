@@ -26,19 +26,16 @@ Game.prototype.connect = function connect(socket)
     {
         if(!players.includes(userName) && (userName !== "" || userName !== " "))
         {
-            console.log("Username available");
             socket.emit("user set", userName);
 
             socket.on("user set successful", () =>
             {
                 players.push(userName);
                 this.io.emit("player join", `Player ${userName} (${socket.id}) has joined the server`);
-                console.log("User set successful");
             });
         }
         else 
         {
-            console.log("User Exists");
             socket.emit("user exists", `${userName} is already taken or empty. Try another user name.`);
         
             socket.on("user set unsuccessful", () =>
@@ -59,6 +56,11 @@ Game.prototype.connect = function connect(socket)
     {
         socket.emit("private msg sent", `Private message to ${recipient.name}`);
         this.io.to(recipient.id).emit("private msg sent", `Private message from ${senderName}`);
+    });
+
+    socket.on("update textarea", (text) =>
+    {
+        this.io.sockets.emit("textarea updated", text);
     });
 };
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import Chat from "../Chat/Chat";
+import Notepad from "../Notepad/Notepad";
 
 const ENDPOINT = "localhost:3001";
 const connectionOptions =
@@ -60,7 +61,10 @@ export default function Client()
                     {errorMsg}
                 </div>
                 :
-                <Chat socket={socket} userName={userName} />
+                <div>
+                    <Notepad socket={socket} />
+                    <Chat socket={socket} userName={userName} />
+                </div>
             }
         </div>
     );
