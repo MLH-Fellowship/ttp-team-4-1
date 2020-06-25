@@ -26,11 +26,26 @@ Game.prototype.connect = function connect(socket)
     {
         if(!players.includes(userName) && (userName !== "" || userName !== " "))
         {
-            players.push(userName);
+            console.log("Username available");
             socket.emit("user set", userName);
-            this.io.emit("player join", `Player ${userName} (${socket.id}) has joined the server`);
+
+            socket.on("user set successful", () =>
+            {
+                players.push(userName);
+                this.io.emit("player join", `Player ${userName} (${socket.id}) has joined the server`);
+                console.log("User set successful");
+            });
         }
-        else socket.emit("user exists", `${userName} is already taken or empty. Try another user name.`);
+        else 
+        {
+            console.log("User Exists");
+            socket.emit("user exists", `${userName} is already taken or empty. Try another user name.`);
+        
+            socket.on("user set unsuccessful", () =>
+            {
+                console.log("User set unsuccessful");
+            })
+        }
     });
 
     // Listen for send message event

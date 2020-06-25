@@ -3,10 +3,17 @@ import socketIOClient from "socket.io-client";
 import Chat from "../Chat/Chat";
 
 const ENDPOINT = "localhost:3001";
+const connectionOptions =
+{
+    "force new connection": true,
+    "reconnectionAttempts": "infinity",
+    "timeout": 10000,
+    "transports": ["websocket"]
+};
 
 export default function Client()
 {
-    const socket = socketIOClient(ENDPOINT);
+    const socket = socketIOClient(ENDPOINT, connectionOptions);
     const [userName, setUsername] = useState("");
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
@@ -24,14 +31,16 @@ export default function Client()
         {
             setUsername(userName);
             setLoggedIn(true);
-            console.log(`${isLoggedIn} from user set`);
+            socket.emit("user set successful");
         });
 
         socket.on("user exists", (errorMsg) =>
         {
             setErrorMsg(errorMsg);
             setLoggedIn(false);
-            console.log(`${isLoggedIn} from user exists`);
+            setTimeout(() => setErrorMsg(""), 2000);
+
+            socket.emit("user set unsuccessful");
         });
 
         // Clean up the effect

@@ -46,6 +46,9 @@ export default function Chat(props)
         {
             setMessages(prevMessages => [...prevMessages, { player: { name: "CONSOLE", id: "0"}, chatMsg: msg }]);
         });
+
+        // Clean up the effect
+        return () => props.socket.disconnect();
     }, []);
 
     return (
