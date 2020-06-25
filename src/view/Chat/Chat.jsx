@@ -9,8 +9,7 @@ export default function Chat(props)
     {
         event.preventDefault();
         event.target.reset();
-        props.socket.emit("chat message", chatMsg);
-        console.log(chatMsg);
+        props.socket.emit("send message", chatMsg, props.socket.id);
     };
 
     const onChange = (event) =>
@@ -18,24 +17,52 @@ export default function Chat(props)
         setChatMsg(event.target.value);
     };
 
+    const onClick = (event, id) =>
+    {
+        event.preventDefault();
+        props.socket.emit("send private msg", "", props.socket.id, id);
+    };
+
     useEffect(() =>
     {
-        props.socket.on("chat message", chatMsg =>
+        props.socket.on("send message", (chatMsg, player) =>
         {
-            setMessages(prevMessages => [...prevMessages, chatMsg]);
+            setMessages(prevMessages => [...prevMessages, { player, chatMsg }]);
         });
-        console.log(messages);
+
+        props.socket.on("send private msg", (chatMsg, sender, recipient) =>
+        {
+            setMessages(prevMessages => [...prevMessages, { player: recipient, chatMsg }])
+        });
+
+        props.socket.on("player join", (msg) =>
+        {
+            setMessages(prevMessages => [...prevMessages, { player: "CONSOLE", chatMsg: msg }]);
+        });
+
+        props.socket.on("player leave", (msg) =>
+        {
+            setMessages(prevMessages => [...prevMessages, { player: "CONSOLE", chatMsg: msg }]);
+        });
     }, []);
 
     return (
         <div>
+            Welcome, <strong>{props.socket.id}</strong>
             <form onSubmit={onSubmit}>
                 <input type="text" placeholder="Chat Here" onChange={onChange} />
-                <br/>
-                {chatMsg}
             </form>
             Messages:<br/>
-            {messages.map(msg => <div>{msg}</div>)}
+            {messages.map(msg => 
+                <div>
+                    {msg.player !== props.socket.id ? 
+                        <a href={msg.player} onClick={event => onClick(event, msg.player)}><strong>{msg.player}</strong></a> : 
+                        <strong>{msg.player}</strong>
+                    }  
+                    <br/>
+                    {msg.chatMsg}
+                </div>
+            )}
         </div>
     );
 }

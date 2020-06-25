@@ -13,12 +13,23 @@ Game.prototype.start = function start()
 
 Game.prototype.connect = function connect(socket)
 {
-    console.log(`Socket ${socket.id} connected to server`);
+    this.io.emit("player join", `Socket ${socket.id} connected to server`);
 };
 
 Game.prototype.disconnect = function disconnect(socket)
 {
-    console.log(`Socket ${socket.id} disconnected from server`);
+    this.io.emit("player leave", `Socket ${socket.id} disconnected from server`);
+};
+
+Game.prototype.sendMessage = function sendMessage(socket, chatMsg, player)
+{
+    this.io.emit("send message", chatMsg, player);
+};
+
+Game.prototype.sendPrivateMsg = function sendPrivateMsg(socket, chatMsg, sender, recipient)
+{
+    socket.emit("send private msg", `Private message to ${recipient}`, sender, recipient);
+    this.io.to(recipient).emit("send private msg", `Private message from ${sender}`, sender, recipient);
 };
 
 module.exports = Game;
