@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
+import Chat from "../Chat/Chat";
 
 const ENDPOINT = "localhost:3001";
 
 export default function Client()
 {
+    const socket = socketIOClient(ENDPOINT);
     const [response, setResponse] = useState("");
 
     useEffect(() =>
     {
-        const socket = socketIOClient(ENDPOINT);
         socket.on("GetSocketID", data =>
         {
             setResponse(data);
@@ -21,6 +22,7 @@ export default function Client()
 
     return (
         <p>
+            <Chat socket={socket} />
             Socket with id {response} connected.
         </p>
     );

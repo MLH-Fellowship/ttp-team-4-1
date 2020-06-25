@@ -20,25 +20,6 @@ const io = socketIO(http);
 
 const port = process.env.PORT || 3001;
 
-//Socket io for user connection
-io.on('connection', (socket) => {
-    console.log('oi we got a new user here');
-
-    //Socket io for user messages
-    socket.on('chat message', (msg) => {
-        console.log('message: ' + msg);
-    });
-
-//Socket io for user disconnection
-    socket.on('disconnect', () =>{
-        console.log('oi, new user is gone');
-    });
-});
-
-app.get('/', function (req, res) {
-    res.render('index', {});
-})
-
 http.listen(port, () =>
 {
     console.log("Listening on port ", port);
