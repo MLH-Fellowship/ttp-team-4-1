@@ -10,7 +10,6 @@ export default function Chat(props)
         event.preventDefault();
         event.target.reset();
         props.socket.emit("send message", chatMsg, props.socket.id);
-        console.log(chatMsg);
     };
 
     const onChange = (event) =>
@@ -30,8 +29,6 @@ export default function Chat(props)
         <div>
             <form onSubmit={onSubmit}>
                 <input type="text" placeholder="Chat Here" onChange={onChange} />
-                <br/>
-                {chatMsg}
             </form>
             Messages:<br/>
             {messages.map(msg => <div>{msg}</div>)}
