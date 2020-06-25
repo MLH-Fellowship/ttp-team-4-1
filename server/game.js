@@ -17,6 +17,11 @@ Game.prototype.connect = function connect(socket)
 {
     // this.io.emit("player join", `Socket ${socket.id} connected to server`);
 
+    socket.on("disconnect", () =>
+    {
+        this.io.emit("player leave", `Socket ${socket.id} disconnected from server`);
+    });
+
     socket.on("set username", (userName) =>
     {
         if(!players.includes(userName) && (userName !== "" || userName !== " "))
@@ -27,22 +32,19 @@ Game.prototype.connect = function connect(socket)
         }
         else socket.emit("user exists", `${userName} is already taken or empty. Try another user name.`);
     });
-};
 
-Game.prototype.disconnect = function disconnect(socket)
-{
-    this.io.emit("player leave", `Socket ${socket.id} disconnected from server`);
-};
+    // Listen for send message event
+    socket.on("send message", (chatMsg, player, socketID) =>
+    {
+        // Emit a response to message sent event
+        this.io.sockets.emit("message sent", chatMsg, player, socketID);
+    });
 
-Game.prototype.sendMessage = function sendMessage(socket, chatMsg, player)
-{
-    this.io.emit("send message", chatMsg, player);
-};
-
-Game.prototype.sendPrivateMsg = function sendPrivateMsg(socket, chatMsg, sender, recipient)
-{
-    socket.emit("send private msg", `Private message to ${recipient}`, sender, recipient);
-    this.io.to(recipient).emit("send private msg", `Private message from ${sender}`, sender, recipient);
+    socket.on("send private msg", (chatMsg, senderName, recipient) =>
+    {
+        socket.emit("private msg sent", `Private message to ${recipient.name}`);
+        this.io.to(recipient.id).emit("private msg sent", `Private message from ${senderName}`);
+    });
 };
 
 module.exports = Game;

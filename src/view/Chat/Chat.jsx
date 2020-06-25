@@ -9,7 +9,8 @@ export default function Chat(props)
     {
         event.preventDefault();
         event.target.reset();
-        props.socket.emit("send message", chatMsg, props.userName);
+        // Emit to send message event
+        props.socket.emit("send message", chatMsg, props.userName, props.socket.id);
     };
 
     const onChange = (event) =>
@@ -17,32 +18,33 @@ export default function Chat(props)
         setChatMsg(event.target.value);
     };
 
-    const onClick = (event, id) =>
+    const onClick = (event, recipient) =>
     {
         event.preventDefault();
-        props.socket.emit("send private msg", "", props.userName, id);
+        props.socket.emit("send private msg", "", props.userName, recipient);
     };
 
     useEffect(() =>
     {
-        props.socket.on("send message", (chatMsg, player) =>
+        // Listen for response from message sent event
+        props.socket.on("message sent", (chatMsg, player, socketID) =>
         {
-            setMessages(prevMessages => [...prevMessages, { player, chatMsg }]);
+            setMessages(prevMessages => [...prevMessages, { player: { name: player, id: socketID }, chatMsg }]);
         });
 
-        props.socket.on("send private msg", (chatMsg, sender, recipient) =>
+        props.socket.on("private msg sent", (chatMsg) =>
         {
-            setMessages(prevMessages => [...prevMessages, { player: "CONSOLE", chatMsg }])
+            setMessages(prevMessages => [...prevMessages, { player: { name: "CONSOLE", id: "0"}, chatMsg }])
         });
 
         props.socket.on("player join", (msg) =>
         {
-            setMessages(prevMessages => [...prevMessages, { player: "CONSOLE", chatMsg: msg }]);
+            setMessages(prevMessages => [...prevMessages, { player: { name: "CONSOLE", id: "0"}, chatMsg: msg }]);
         });
 
         props.socket.on("player leave", (msg) =>
         {
-            setMessages(prevMessages => [...prevMessages, { player: "CONSOLE", chatMsg: msg }]);
+            setMessages(prevMessages => [...prevMessages, { player: { name: "CONSOLE", id: "0"}, chatMsg: msg }]);
         });
     }, []);
 
@@ -55,9 +57,9 @@ export default function Chat(props)
             Messages:<br/>
             {messages.map(msg => 
                 <div>
-                    {msg.player !== props.userName ? 
-                        <a href={msg.player} onClick={event => onClick(event, msg.player)}><strong>{msg.player}</strong></a> : 
-                        <strong>{msg.player}</strong>
+                    {msg.player.name !== props.userName ? 
+                        <a href={msg.player.name} onClick={event => onClick(event, msg.player)}><strong>{msg.player.name}</strong></a> : 
+                        <strong>{msg.player.name}</strong>
                     }  
                     <br/>
                     {msg.chatMsg}

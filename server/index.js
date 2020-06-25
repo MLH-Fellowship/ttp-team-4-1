@@ -6,21 +6,6 @@ const game = new Game(server.io);
 server.io.on("connection", (socket) =>
 {
     game.connect(socket);
-
-    socket.on("disconnect", () =>
-    {
-        game.disconnect(socket);
-    });
-
-    socket.on("send message", (chatMsg, player) => 
-    {
-        game.sendMessage(socket, chatMsg, player);
-    });
-
-    socket.on("send private msg", (chatMsg, sender, recipient) =>
-    {
-        game.sendPrivateMsg(socket, chatMsg, sender, recipient);
-    });
 });
 
 game.start();
