@@ -69,6 +69,17 @@ Game.prototype.connect = function connect(socket)
     {
         socket.emit("receive textarea", oldText);
     });
+
+    socket.on("update canvas", (mouse) =>
+    {
+       oldMouse = mouse;
+       this.io.sockets.emit("canvas updated", mouse); 
+    });
+
+    socket.on("get canvas", () =>
+    {
+        socket.emit("receive canvas", oldMouse);
+    });
 };
 
 module.exports = Game;
