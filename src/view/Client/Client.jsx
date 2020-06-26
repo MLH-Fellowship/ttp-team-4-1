@@ -4,7 +4,7 @@ import Chat from "../Chat/Chat";
 import Notepad from "../Notepad/Notepad";
 import Music from "../Music/Music";
 
-const ENDPOINT = `https://sharemycode.herokuapp.com:${process.env.PORT}`;
+const ENDPOINT = `https://sharemycode.herokuapp.com:3001`;
 const connectionOptions =
 {
     "force new connection": true,
@@ -29,6 +29,7 @@ export default function Client()
 
     useEffect(() =>
     {
+        console.log(ENDPOINT);
         socket.on("user set", (userName) =>
         {
             setUsername(userName);
