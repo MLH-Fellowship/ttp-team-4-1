@@ -7,7 +7,7 @@ import Music from "../Music/Music";
 let ENDPOINT;
 
 if(process.env.NODE_ENV === "development") ENDPOINT = "localhost:3001";
-else if(process.env.NODE_ENV === "production") ENDPOINT = `https://sharemycode-backend.herokuapp.com`;
+else if(process.env.NODE_ENV === "production") ENDPOINT = `https://sharemycode.herokuapp.com`;
 
 
 const connectionOptions =
