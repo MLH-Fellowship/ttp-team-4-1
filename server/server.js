@@ -18,7 +18,7 @@ app.use(express.static(__dirname + "/../build"));
 const http = HTTP.Server(app);
 const io = socketIO(http);
 
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 http.listen(port, () =>
 {
