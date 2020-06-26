@@ -27,5 +27,5 @@ http.listen(port, () =>
 
 module.exports =
 {
-    app, http, io
+    app, http, io, port
 };

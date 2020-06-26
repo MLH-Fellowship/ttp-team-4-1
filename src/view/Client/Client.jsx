@@ -4,7 +4,9 @@ import Chat from "../Chat/Chat";
 import Notepad from "../Notepad/Notepad";
 import Music from "../Music/Music";
 
-const ENDPOINT = "localhost:3001";
+import { port } from "../../../server/server";
+
+const ENDPOINT = `https://sharemycode.herokuapp.com:${port}`;
 const connectionOptions =
 {
     "force new connection": true,
