@@ -4,12 +4,10 @@ import Chat from "../Chat/Chat";
 import Notepad from "../Notepad/Notepad";
 import Music from "../Music/Music";
 
-import { port } from "@server";
-
 let ENDPOINT;
 
 if(process.env.NODE_ENV === "development") ENDPOINT = "localhost:3001";
-else if(process.env.NODE_ENV === "production") ENDPOINT = `https://sharemycode.herokuapp.com:${port}`;
+else if(process.env.NODE_ENV === "production") ENDPOINT = `https://sharemycode.herokuapp.com:${process.env.PORT}`;
 
 
 const connectionOptions =
