@@ -62,7 +62,7 @@ Game.prototype.connect = function connect(socket)
     socket.on("update textarea", (text) =>
     {
         oldText = text;
-        this.io.sockets.emit("textarea updated", text);
+        socket.broadcast.emit("textarea updated", text);
     });
 
     socket.on("get textarea", () =>

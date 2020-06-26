@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import Chat from "../Chat/Chat";
 import Notepad from "../Notepad/Notepad";
+import Music from "../Music/Music";
 
 const ENDPOINT = "localhost:3001";
 const connectionOptions =
@@ -64,6 +65,7 @@ export default function Client()
                 <div>
                     <Notepad socket={socket} />
                     <Chat socket={socket} userName={userName} />
+                    <Music/>
                 </div>
             }
         </div>
