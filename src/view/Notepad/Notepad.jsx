@@ -16,6 +16,7 @@ export default function Notepad(props)
 
     const onChange = (event) =>
     {
+        setText(event.target.value);
         props.socket.emit("update textarea", event.target.value);
     };
 
