@@ -4,9 +4,14 @@ import Chat from "../Chat/Chat";
 import Notepad from "../Notepad/Notepad";
 import Music from "../Music/Music";
 
-import { port } from "../../server";
+import { port } from "@server";
 
-const ENDPOINT = `https://sharemycode.herokuapp.com:${port}`;
+let ENDPOINT;
+
+if(process.env.NODE_ENV === "development") ENDPOINT = "localhost:3001";
+else if(process.env.NODE_ENV === "production") ENDPOINT = `https://sharemycode.herokuapp.com:${port}`;
+
+
 const connectionOptions =
 {
     "force new connection": true,
@@ -31,7 +36,6 @@ export default function Client()
 
     useEffect(() =>
     {
-        console.log(ENDPOINT);
         socket.on("user set", (userName) =>
         {
             setUsername(userName);
