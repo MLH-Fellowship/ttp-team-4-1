@@ -45,6 +45,7 @@
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 15px;
     grid-auto-rows: minmax(100px, auto);
+    margin: 2rem;
   }
 
   .one {
