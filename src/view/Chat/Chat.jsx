@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import './Chat.css';
 
 export default function Chat(props)
 {
@@ -52,19 +53,19 @@ export default function Chat(props)
     }, []);
 
     return (
-        <div>
-            Welcome, <strong>{props.userName}</strong>
+        <div className="Chat">
+           <span className="welcomemsg">  Welcome, <strong className="username">{props.userName}</strong> </span> 
             <form onSubmit={onSubmit}>
                 <input type="text" placeholder="Chat Here" onChange={onChange} />
             </form>
             Messages:<br/>
             {messages.map(msg => 
-                <div>
+                <div className="otherUser">
                     {msg.player.name !== props.userName ? 
-                        <a href={msg.player.name} onClick={event => onClick(event, msg.player)}><strong>{msg.player.name}</strong></a> : 
-                        <strong>{msg.player.name}</strong>
+                        <a href={msg.player.name} onClick={event => onClick(event, msg.player)}><strong className="playername">{msg.player.name}  </strong></a> : 
+                        <strong className="username">{msg.player.name}</strong>
                     }  
-                    <br/>
+                   : &nbsp; 
                     {msg.chatMsg}
                 </div>
             )}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import './Notepad.css';
 
 export default function Notepad(props)
 {
@@ -31,10 +32,10 @@ export default function Notepad(props)
     }, []);
 
     return (
-        <div>
-            Notepad:<br/>
+        <div className="textbox" className="row">
+           <label for="notepad"> Notepad:</label><br/>
             <form>
-                <textarea onChange={onChange} value={text} rows="40" cols="100" placeholder="Start typing here, for real-time peer programming" />
+                <textarea onChange={onChange} value={text} rows="100" cols="100" placeholder="Start typing here, for real-time peer programming" />
             </form>
         </div>
     );

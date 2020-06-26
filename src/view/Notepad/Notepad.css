@@ -1,0 +1,19 @@
+label,
+textarea {
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+textarea {
+    padding: 10px;
+    line-height: 1.5;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px rgb(219, 205, 205);
+    width: 600px;
+	height: 600px;
+}
+
+label {
+    display: block;
+    margin-bottom: 0em;
+}

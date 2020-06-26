@@ -3,6 +3,8 @@ import socketIOClient from "socket.io-client";
 import Chat from "../Chat/Chat";
 import Notepad from "../Notepad/Notepad";
 import Music from "../Music/Music";
+import share_my_code  from './share_my_code.png';
+import "./Client.css"
 
 const ENDPOINT = "localhost:3001";
 const connectionOptions =
@@ -52,20 +54,23 @@ export default function Client()
     return (
         <div>
             {!isLoggedIn ? 
-                <div>
+                <div className="login">
                     <form onSubmit={onSubmit}>
                         Enter a Username:<br/>
                         <input type="text" name="input" placeholder="Username" />
-                        <button type="submit">Enter the Chat</button>
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Enter the Chat
+                        <i class="material-icons right">send</i>
+                        </button>
                     </form>
                     <br/>
                     {errorMsg}
                 </div>
                 :
-                <div>
-                    <Notepad socket={socket} />
-                    <Chat socket={socket} userName={userName} />
-                    <Music/>
+                <div className="main">
+                   <div className="one"> <img className="logo" src={share_my_code} alt="Logo"/> </div>
+                   <div className="two"> <Notepad socket={socket} /> </div>
+                   <div className="three"> <Chat socket={socket} userName={userName} /> </div>
+                   <div className="four">  <Music/> </div>
                 </div>
             }
         </div>
