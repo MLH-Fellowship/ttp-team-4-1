@@ -34,7 +34,7 @@ class Music extends Component {
     render() {
         const imageName = this.getImageName();
         return (
-            <div>
+            <div className="musicbox">
                 <form>
                     <img src={imageP[imageName]} onClick={this.toggleBoth} alt='crappyjukebox' />
                 </form>
